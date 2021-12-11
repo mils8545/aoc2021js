@@ -95,7 +95,7 @@ const ex1 = (file) => {
     }
   });
 
-  console.log(`Dangerous Points Method 1: ${dangerCount}`);
+  console.log(`EX 05-1: Dangerous Points Method 1: ${dangerCount}`);
 }
 
 const ex2 = (file) => {
@@ -119,9 +119,16 @@ const ex2 = (file) => {
     }
   });
 
-  console.log(`Dangerous Points Method 2: ${dangerCount}`);
+  console.log(`EX 05-2: Dangerous Points Method 2: ${dangerCount}`);
 }
 
 
+let startTime = performance.now();
 ex1(process.argv[2]);
+let endTime = performance.now();
+console.log(`Exercise 05-1 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
+
+startTime = performance.now();
 ex2(process.argv[2]);
+endTime = performance.now();
+console.log(`Exercise 05-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);

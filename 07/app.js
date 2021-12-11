@@ -25,8 +25,6 @@ const fuelUsedEx2PerCrab = (crab, target) => summation(Math.abs(target - crab));
 
 const fuelUsedEx2 = (crabs, target) => crabs.reduce((prev, curr) => prev + fuelUsedEx2PerCrab(curr, target), 0);
 
-
-
 const ex1 = (file) => {
   const fileLines = readFile(file);
   const crabsInitial = fileLines[0].split(',').map(num => Number(num));
@@ -44,7 +42,7 @@ const ex1 = (file) => {
     }
   };
 
-  console.log (`EX1: Minimum Fuel: ${minFuel} Most Efficient Target Level: ${efficientDepth}`);
+  console.log (`EX 07-1: Minimum Fuel: ${minFuel} Most Efficient Target Level: ${efficientDepth}`);
 }
 
 const ex2 = (file) => {
@@ -64,8 +62,15 @@ const ex2 = (file) => {
     }
   };
 
-  console.log (`EX2: Minimum Fuel: ${minFuel} Most Efficient Target Level: ${efficientDepth}`);
+  console.log (`EX 07-2: Minimum Fuel: ${minFuel} Most Efficient Target Level: ${efficientDepth}`);
 }
 
+let startTime = performance.now();
 ex1(process.argv[2]);
+let endTime = performance.now();
+console.log(`Exercise 07-1 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
+
+startTime = performance.now();
 ex2(process.argv[2]);
+endTime = performance.now();
+console.log(`Exercise 07-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);

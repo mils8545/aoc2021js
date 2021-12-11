@@ -66,7 +66,7 @@ const pointIDtoObject = (pointID) => {
 
 const ex1 = (file) => {
   const map = readFile(file).map(line => line.split(""));
-  console.log(`EX1: There are ${findLowSpots(map).reduce((prev, curr) => prev + Number(map[curr.y][curr.x]) + 1, 0)} low spots.`);
+  console.log(`EX 09-1: There are ${findLowSpots(map).reduce((prev, curr) => prev + Number(map[curr.y][curr.x]) + 1, 0)} low spots.`);
 }
 
 const ex2 = (file) => {
@@ -77,8 +77,15 @@ const ex2 = (file) => {
     basins.push(countBasin(map, pointIDtoObject(lowPointIDList.shift())));
   }
   bc = basins.map(basin => basin.length).sort((a,b) => b - a);
-  console.log(`EX2: There are ${basins.length} basins. The three largest basins are ${bc[0]}, ${bc[1]}, and ${bc[2]} in size. The product is ${bc[0] * bc[1] * bc[2]}.`);
+  console.log(`EX 09-2: There are ${basins.length} basins. The three largest basins are ${bc[0]}, ${bc[1]}, and ${bc[2]} in size. The product is ${bc[0] * bc[1] * bc[2]}.`);
 }
 
+let startTime = performance.now();
 ex1(process.argv[2]);
+let endTime = performance.now();
+console.log(`Exercise 09-1 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
+
+startTime = performance.now();
 ex2(process.argv[2]);
+endTime = performance.now();
+console.log(`Exercise 09-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);

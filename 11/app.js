@@ -77,7 +77,7 @@ const ex1 = (file) => {
     dOcts = dOctsResolve(dOcts);
   }
 
-  console.log(`EX1: After 100 rounds there have been ${flashCount} flashes.`);
+  console.log(`EX 11-1: After 100 rounds there have been ${flashCount} flashes.`);
 }
 
 const ex2 = (file) => {
@@ -91,15 +91,15 @@ const ex2 = (file) => {
     count++;
   }
 
-  console.log(`EX2: The flashes syncronize at round ${count}.`);
+  console.log(`EX 11-2: The flashes syncronize at round ${count}.`);
 }
 
 let startTime = performance.now();
 ex1(process.argv[2]);
 let endTime = performance.now();
-console.log(`Exercise 1 took ${endTime - startTime} milliseconds`);
+console.log(`Exercise 11-1 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
 
 startTime = performance.now();
 ex2(process.argv[2]);
 endTime = performance.now();
-console.log(`Exercise 2 took ${endTime - startTime} milliseconds`);
+console.log(`Exercise 11-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);

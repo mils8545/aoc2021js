@@ -36,7 +36,7 @@ const ex1 = (file) => {
   const errors = lines.map(line => checkLine(line));
   const score = errors.filter(error => typeof error == 'string').reduce((prev, curr) => prev += closerValues[curr],0);
 
-  console.log(`EX1: The score of the errors is ${score}.`);
+  console.log(`EX 10-1: The score of the errors is ${score}.`);
 }
 
 const ex2 = (file) => {
@@ -47,8 +47,15 @@ const ex2 = (file) => {
 
   let midScore = scores[Math.floor(scores.length/2)];
 
-  console.log(`EX2: The score of the completions is ${midScore}.`);
+  console.log(`EX 10-2: The score of the completions is ${midScore}.`);
 }
 
+let startTime = performance.now();
 ex1(process.argv[2]);
+let endTime = performance.now();
+console.log(`Exercise 10-1 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
+
+startTime = performance.now();
 ex2(process.argv[2]);
+endTime = performance.now();
+console.log(`Exercise 10-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);

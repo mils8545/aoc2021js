@@ -85,7 +85,7 @@ const ex1 = (file) => {
 
   let identifiableCount = signals.flat().reduce((prev, curr) => prev + ((isIdentifiableSignal(curr) ? 1 : 0)) ,0 );
 
-  console.log (`EX1: There are ${identifiableCount} easily identifiable digits in the signals.`);
+  console.log (`EX 08-1: There are ${identifiableCount} easily identifiable digits in the signals.`);
 }
 
 const ex2 = (file) => {
@@ -96,8 +96,15 @@ const ex2 = (file) => {
 
   const total = fileLines.reduce((prev, curr) => prev + Number(decodeLine(curr)), 0)
 
-  console.log(`EX2: The total of the signals is ${total}.`);
+  console.log(`EX 08-2: The total of the signals is ${total}.`);
 }
 
+let startTime = performance.now();
 ex1(process.argv[2]);
+let endTime = performance.now();
+console.log(`Exercise 08-1 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
+
+startTime = performance.now();
 ex2(process.argv[2]);
+endTime = performance.now();
+console.log(`Exercise 08-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);

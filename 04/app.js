@@ -79,7 +79,7 @@ const ex1 = async (file) => {
     }
   }
 
-  console.log(`Winning Card Index: ${winningCard}, Score: ${scoreCard(cards[winningCard],cardDots[winningCard],balls[curBall])}`);
+  console.log(`EX 04-1: Winning Card Index: ${winningCard}, Score: ${scoreCard(cards[winningCard],cardDots[winningCard],balls[curBall])}`);
 }
 
 
@@ -119,12 +119,16 @@ const ex2 = (file) => {
     cardDots[0] = dotCard(cards[0],cardDots[0],balls[curBall]);
   }
 
-  console.log(cards);
-  console.log(cardDots);
-
-  console.log(`Losing Card Score: ${scoreCard(cards[0],cardDots[0],balls[curBall])}`);
+  console.log(`EX 04-2: Losing Card Score: ${scoreCard(cards[0],cardDots[0],balls[curBall])}`);
 }
 
 
+let startTime = performance.now();
 ex1(process.argv[2]);
+let endTime = performance.now();
+console.log(`Exercise 04-1 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
+
+startTime = performance.now();
 ex2(process.argv[2]);
+endTime = performance.now();
+console.log(`Exercise 04-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);

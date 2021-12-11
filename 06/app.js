@@ -42,7 +42,7 @@ const ex1 = (file) => {
     fishCount = fishDay(fishCount);
   }
 
-  console.log(`Ex 1: After ${DAYS} there would be ${fishTotal(fishCount)} fish.`);
+  console.log(`Ex 06-1: After ${DAYS} days there would be ${fishTotal(fishCount)} fish.`);
 }
 
 const ex2 = (file) => {
@@ -57,9 +57,15 @@ const ex2 = (file) => {
     fishCount = fishDay(fishCount);
   }
 
-  console.log(`Ex 2: After ${DAYS} there would be ${fishTotal(fishCount)} fish.`);
+  console.log(`Ex 06-2: After ${DAYS} days there would be ${fishTotal(fishCount)} fish.`);
 }
 
-
+let startTime = performance.now();
 ex1(process.argv[2]);
+let endTime = performance.now();
+console.log(`Exercise 06-1 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
+
+startTime = performance.now();
 ex2(process.argv[2]);
+endTime = performance.now();
+console.log(`Exercise 06-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);

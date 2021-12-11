@@ -2,14 +2,9 @@ const fs = require('fs');
 let lines;
 
 const readFile = (readFile) => {
-  fs.readFile(readFile, 'utf8', (err, data) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-    let lines = data.split(/\r?\n/);
-    ex2(lines);
-  });
+  const data = fs.readFileSync(readFile, {encoding:'utf8', flag:'r'});
+  let lines = data.split(/\r?\n/);
+  return lines;
 }
 
 const bitArrayToNumber = (bitArray) => {
@@ -33,19 +28,19 @@ const generateCommonBitMap = (lines) => {
   return bitMap;
 }
 
-const ex1 = (lines) => {
+const ex1 = (file) => {
+  lines = readFile(file);
   let gammaBits = generateCommonBitMap(lines);
   let epsilonBits = gammaBits.map((bit) => (bit) ? 0 : 1);
 
   let gamma = bitArrayToNumber(gammaBits);
   let epsilon = bitArrayToNumber(epsilonBits);
 
-  console.log(`Gamma: ${gamma} Epsilon: ${epsilon} Product: ${gamma * epsilon}`);
+  console.log(`EX 03-1: Gamma: ${gamma} Epsilon: ${epsilon} Product: ${gamma * epsilon}`);
 }
 
-
-
-const ex2 = (lines) => {
+const ex2 = (file) => {
+  lines = readFile(file);
   let filteredLines = lines;
   let currentBit = 0;
   while (filteredLines.length > 1) {
@@ -56,7 +51,6 @@ const ex2 = (lines) => {
     currentBit += 1;
   }
   let oxygenBits = generateCommonBitMap(filteredLines);
-  console.log(oxygenBits);
 
   filteredLines = lines;
   currentBit = 0;
@@ -69,14 +63,19 @@ const ex2 = (lines) => {
     currentBit += 1;
   }
   let co2Bits = generateCommonBitMap(filteredLines);
-  console.log(co2Bits);
 
   let oxygen = bitArrayToNumber(oxygenBits);
   let co2 = bitArrayToNumber(co2Bits);
 
-  console.log(`Oxygen: ${oxygen} CO2: ${co2} Product: ${oxygen * co2}`);
-
+  console.log(`EX 03-2: Oxygen: ${oxygen} CO2: ${co2} Product: ${oxygen * co2}`);
 }
 
+let startTime = performance.now();
+ex1(process.argv[2]);
+let endTime = performance.now();
+console.log(`Exercise 03-1 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
 
-readFile(process.argv[2]);
+startTime = performance.now();
+ex2(process.argv[2]);
+endTime = performance.now();
+console.log(`Exercise 03-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
