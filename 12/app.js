@@ -1,6 +1,5 @@
 const { performance } = require('perf_hooks');
 
-let flashCount = 0;
 let paths = [];
 
 const readFile = (readFile) => {
@@ -67,7 +66,6 @@ const ex2 = (file) => {
   pathFind(nodes, ['start'], false);
 
   console.log(`EX 11-2: There are ${paths.length} paths through the cave system.`);
-  //console.log(paths);
 }
 
 let startTime = performance.now();
