@@ -21,7 +21,7 @@ const parseLines = (lines) => {
 
 const mapPrint = (pointMap) => {
   for (let y = 0; y < pointMap.length; y++) {
-    console.log(pointMap[y].map((point) => (point) ? '#' : '.').join(""));
+    console.log(pointMap[y].map((point) => (point) ? '#' : ' ').join(" "));
   }
 }
 
