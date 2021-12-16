@@ -7,72 +7,81 @@ const readFile = (readFile) => {
   return lines;
 }
 
-const xyToStraight = (x, y, width) => (y * width) + x;
+const parseLines = (lines) => {
+  let rules = {};
+  lines.slice(2).forEach(line => rules[line.slice(0,2)] = [line[0]+line[6],line[6]+line[1]]);
+  let pairCount = {};
+  lines.slice(2).forEach(line => pairCount[line.slice(0,2)] = 0);
+  const template = lines[0];
+  for (let i = 0; i < template.length -1; i++) {
+    pairCount[template.slice(i, i+2)] += 1;
+  }
+  const pairs = lines.slice(2).map(line => line.slice(0,2));
 
-const straightToXY = (point, width) => ({x: point % width, y: Math.floor(point/width)});
-
-const findNeighbours = (point, width, height) => {
-  let neighbours = [];
-  const coords = straightToXY(point, width);
-  if (coords.x > 0) neighbours.push(xyToStraight(coords.x-1, coords.y, width));
-  if (coords.x < width-1) neighbours.push(xyToStraight(coords.x+1, coords.y, width));
-  if (coords.y > 0) neighbours.push(xyToStraight(coords.x, coords.y-1, width));
-  if (coords.y < height-1) neighbours.push(xyToStraight(coords.x, coords.y+1, width));
-  return neighbours;
+  return {pairCount: pairCount, rules: rules, pairs: pairs};
 }
+
+const polymerize = (pairCount, rules, pairs) => {
+  let retCount = {};
+  pairs.forEach(pair => retCount[pair] = 0);
+  pairs.forEach(pair => {
+    retCount[rules[pair][0]] += pairCount[pair];
+    retCount[rules[pair][1]] += pairCount[pair];
+  });
+  return retCount;
+} 
 
 const ex1 = (file) => {
   const lines = readFile(file);
-  let map = lines.join("").split("");
+  let {pairCount, rules, pairs} = parseLines(lines);
+  const runLength = 10;
 
-  const mapWidth = lines[0].length;
-  const mapHeight = lines.length;
-  // map = [0, 2, 3, 5, 5, 1, 8, 3, 8];
-  // const mapWidth = 3;
-  // const mapHeight = 3;
+  const charList = (lines) => lines.slice(2).map(str => str.replace(/[ ->]/g,'')).join("").split("").sort().filter((char, i, chars) => char != chars[i-1]);
+  let charCount = {};
+  charList(lines).forEach(char => charCount[char] = 0);
 
-  map = map.map(cell => ({cost: Number(cell), totalCost: Infinity, via: -1, goal: false }));
+  for(let i = 0; i < runLength; i++) pairCount = polymerize(pairCount, rules, pairs);
 
-  map[0].totalCost = 0;
-  map[map.length-1].goal = true;
+  pairs.forEach(pair => {
+    charCount[pair[0]] += pairCount[pair];
+    charCount[pair[1]] += pairCount[pair];
+  });
 
+  charCount[lines[0][0]] += 1;
+  charCount[lines[0][lines[0].length-1]] += 1;
 
-  let queue = [0];
-  let done = false;
+  let charCount2 = [];
+  charList(lines).forEach(char => charCount2.push({char: char, count: charCount[char]/2}));
+  charCount2 = charCount2.sort((a, b) => b.count - a.count);
 
-  while (!done) {
-    current = queue.pop();
-    findNeighbours( current, mapWidth, mapHeight).forEach(neighbour => {
-      if (map[neighbour].cost + map[current].totalCost < map[neighbour].totalCost) {
-        map[neighbour].totalCost = map[neighbour].cost + map[current].totalCost;
-        map[neighbour].via = current;
-        queue.push(neighbour);
-        if (neighbour == map.length-1) {
-          done = true;
-          console.log(map[neighbour]);
-        }
-      }
-    });
-    queue.sort((a,b) => map[a].totalCost - map[b].totalCost);
-  }
-
-  // map.forEach((coord, i) => {
-  //   console.log(coord);
-  //   console.log(i);
-  // })
-
-  //map.forEach((coord,i) => console.log(`${i}: ${coord.totalCost} ${coord.via}`));
-
-  //console.log(`EX 14-2: The difference between the most common and least common elements is ${charCount2[0].count - charCount2[charCount2.length-1].count} after ${runLength} steps.`);
+  console.log(`EX 14-1: The difference between the most common and least common elements is ${charCount2[0].count - charCount2[charCount2.length-1].count} after ${runLength} steps.`);
 }
 
 const ex2 = (file) => {
   const lines = readFile(file);
+  let {pairCount, rules, pairs} = parseLines(lines);
+  const runLength = 40;
 
+  const charList = (lines) => lines.slice(2).map(str => str.replace(/[ ->]/g,'')).join("").split("").sort().filter((char, i, chars) => char != chars[i-1]);
+  let charCount = {};
+  charList(lines).forEach(char => charCount[char] = 0);
 
-  //console.log(`EX 14-2: The difference between the most common and least common elements is ${charCount2[0].count - charCount2[charCount2.length-1].count} after ${runLength} steps.`);
+  for(let i = 0; i < runLength; i++) pairCount = polymerize(pairCount, rules, pairs);
+
+  pairs.forEach(pair => {
+    charCount[pair[0]] += pairCount[pair];
+    charCount[pair[1]] += pairCount[pair];
+  });
+
+  charCount[lines[0][0]] += 1;
+  charCount[lines[0][lines[0].length-1]] += 1;
+
+  let charCount2 = [];
+  charList(lines).forEach(char => charCount2.push({char: char, count: charCount[char]/2}));
+  charCount2 = charCount2.sort((a, b) => b.count - a.count);
+
+  console.log(`EX 14-2: The difference between the most common and least common elements is ${charCount2[0].count - charCount2[charCount2.length-1].count} after ${runLength} steps.`);
 }
-
 
 let startTime = performance.now();
 ex1(process.argv[2]);
@@ -83,11 +92,3 @@ startTime = performance.now();
 ex2(process.argv[2]);
 endTime = performance.now();
 console.log(`Exercise 14-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
-
-// map = [0, 2, 3, 5, 5, 1, 8, 3, 8];
-
-// 0  2  3
-// 5  5  1
-// 8  3  8
-
-
