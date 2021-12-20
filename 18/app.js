@@ -208,9 +208,9 @@ const ex2 = (file) => {
 let startTime = performance.now();
 ex1(process.argv[2]);
 let endTime = performance.now();
-console.log(`Exercise 14-1 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
+console.log(`Exercise 18-1 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
 
 startTime = performance.now();
 ex2(process.argv[2]);
 endTime = performance.now();
-console.log(`Exercise 14-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
+console.log(`Exercise 18-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
