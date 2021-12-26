@@ -10,6 +10,8 @@ const readFile = (readFile) => {
 const ex1 = (file) => {
   const lines = readFile(file);
 
+
+
 //  console.log(`EX 23-1: The losers score times the number of rolls is ${loserRolls}.`);
 };
 
