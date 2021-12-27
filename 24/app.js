@@ -7,9 +7,7 @@ const readFile = (readFile) => {
   return lines;
 };
 
-
-
-
+// Can run the custon assembly but is way to slow to check all options
 const run = (instruction, registers, input) => {
   const regNames = ['w', 'x', 'y', 'z'];
   let val;
@@ -46,38 +44,83 @@ const run = (instruction, registers, input) => {
   }
 }
 
+// finds the indexes of the digits checked against each other and their checked diff
+const matches = (params) => {
+  let stack = [];
+  let retArr = [];
+  for (let i = 0; i < 14; i++) {
+    if (params[i].div != 26) {
+      stack.push({index: i, num2: params[i].num2});
+    } else {
+      const pop = stack.pop();
+      retArr.push({i1: pop.index, i2: i, diff: (pop.num2 + params[i].num1)});
+    }
+  }
+  return retArr;
+}
+
 const ex1 = (file) => {
   const lines = readFile(file);
 
-  const instructions = lines.map(line => line.split(" "));
+  const ins = lines.map(line => line.split(" "));
 
-  let number = 99999999999999;
-  let accepted = false;
-
-  while (!accepted) {
-    const registers = {w: 0, x: 0, y: 0, z: 0};
-    let input = number.toString().split("").map(dig => Number(dig));
-    if (!(input.includes(0))) {
-      console.log(number);
-      instructions.forEach(instruction => run(instruction, registers, input));
-      if (registers.z == 0) {
-        accepted = true;
-      } else {
-        number--;
-      }
-    } else {
-      number--;
-    }
+  let params = [];
+  for (let i = 0; i < 14; i++) {
+    params.push({div: Number(ins[i*18+4][2]), num1: Number(ins[i*18+5][2]), num2: Number(ins[i*18+15][2])});
   }
 
-  console.log(number);
+  const matchArr = matches(params);
 
+  let min = [1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+  let max = [9,9,9,9,9,9,9,9,9,9,9,9,9,9];
 
+  matchArr.forEach(match => {
+    if (match.diff >= 0) {
+      min[match.i1] = 1;
+      min[match.i2] = 1 + match.diff;
+      max[match.i1] = 9 - match.diff;
+      max[match.i2] = 9;
+    } else {
+      min[match.i1] = 1 - match.diff;
+      min[match.i2] = 1;
+      max[match.i1] = 9;
+      max[match.i2] = 9 + match.diff;
+    }
+  });
 
-//  console.log(`EX 24-1: The losers score times the number of rolls is ${loserRolls}.`);
+  console.log(`EX 24-1: The maximum viable serial number is ${max.join("")}.`);
 };
 
 const ex2 = (file) => {
+  const lines = readFile(file);
+
+  const ins = lines.map(line => line.split(" "));
+
+  let params = [];
+  for (let i = 0; i < 14; i++) {
+    params.push({div: Number(ins[i*18+4][2]), num1: Number(ins[i*18+5][2]), num2: Number(ins[i*18+15][2])});
+  }
+
+  const matchArr = matches(params);
+
+  let min = [1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+  let max = [9,9,9,9,9,9,9,9,9,9,9,9,9,9];
+
+  matchArr.forEach(match => {
+    if (match.diff >= 0) {
+      min[match.i1] = 1;
+      min[match.i2] = 1 + match.diff;
+      max[match.i1] = 9 - match.diff;
+      max[match.i2] = 9;
+    } else {
+      min[match.i1] = 1 - match.diff;
+      min[match.i2] = 1;
+      max[match.i1] = 9;
+      max[match.i2] = 9 + match.diff;
+    }
+  });
+
+  console.log(`EX 24-2: The minimum viable serial number is ${min.join("")}.`);
 };
 
 let startTime = performance.now();
