@@ -131,4 +131,4 @@ console.log(`Exercise 24-1 took ${(endTime - startTime).toPrecision(4)} millisec
 startTime = performance.now();
 ex2(process.argv[2]);
 endTime = performance.now();
-console.log(`Exercise 24-2 took ${(endTime - startTime).toPrecision(5)} milliseconds`);
+console.log(`Exercise 24-2 took ${(endTime - startTime).toPrecision(4)} milliseconds`);
